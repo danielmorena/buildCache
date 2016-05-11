@@ -1,0 +1,7 @@
+{
+  "name": "buildCache",
+  "version": "1.0.0",
+  "description": "purges and builds site cache on demand, controlled from Panel",
+  "license": "MIT",
+  "type": "kirby-plugin",
+}

@@ -59,7 +59,7 @@
 
 		// Purges the cache
 		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", "<?=u("purgeCache")?>");
+		xmlhttp.open("POST", "<?=u("purgeCache")?>");
 		xmlhttp.send();
 		buildCache();
 	}, false);

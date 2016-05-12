@@ -3,5 +3,3 @@ With buildCache you can build the site cache from you panel, just by the click o
 ![](https://i.bratteng.xyz/buildCache.gif)
 
 *v2.0.0*
-
-## Only tested with file based caching

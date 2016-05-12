@@ -17,7 +17,7 @@
 			// If the page is in the ignore list, skip it
 			if (in_array($key, c::get("panel.widget.cacheBuilder.ignore"))) continue; ?>
 
-	<div class="page" data-name="<?=$key?>" data-lang="<?=$lang?>">
+	<div class="page" data-name="<?=$key->slug($lang->code())?>" data-lang="<?=$lang->code()?>">
 		<span class="title"><?=$key->title()?> <div class="progress"></div></span>
 	</div>
 
@@ -36,8 +36,9 @@
 		foreach($site->index() as $page):
 			// If the page is in the ignore list, skip it
 			if (in_array($page, c::get("panel.widget.cacheBuilder.ignore"))) continue;
-			echo "{ url: '{$site->url()}/{$lang}/{$page}', slug: '{$page}', lang: '{$lang}'},";
+			echo "{ url: '{$site->url()}/{$lang}/{$page->slug($lang->code())}', slug: '{$page->slug($lang->code())}', lang: '{$lang}'},";
 		endforeach;
+		echo "\n";
 	endforeach;
 	?>
 	];

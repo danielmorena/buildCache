@@ -13,13 +13,28 @@
 	foreach(panel()->site()->languages() as $lang): ?>
 		<div class="lang"><?=$lang->name()?></div>
 		<?php // Start listing all the pages
-		foreach(panel()->site()->index() as $key):
+		foreach(panel()->site()->children() as $page):
 			// If the page is in the ignore list, skip it
-			if (in_array($key, c::get("panel.widget.cacheBuilder.ignore"))) continue; ?>
+			if (in_array($page, c::get("panel.widget.cacheBuilder.ignore"))) continue;
+	?>
 
-	<div class="page" data-name="<?=$key->slug($lang->code())?>" data-lang="<?=$lang->code()?>">
-		<span class="title"><?=$key->title()?> <div class="progress"></div></span>
+	<div class="page" data-name="<?=$page->slug($lang->code())?>" data-lang="<?=$lang->code()?>">
+		<span class="title"><?=$page->title()?> <div class="progress"></div></span>
 	</div>
+
+	<?php
+	if ($page->hasChildren()):
+		foreach ($page->children() as $child):
+			if (in_array($child, c::get("panel.widget.cacheBuilder.ignore"))) continue;
+	?>
+
+	<div class="page" data-name="<?=$child->slug($lang->code())?>" data-lang="<?=$lang->code()?>">
+		<span class="title"><?=$child->title()?> <div class="progress"></div></span>
+	</div>
+	<?php
+		endforeach;
+	endif;
+	?>
 
 		<?php endforeach; ?>
 	<?php endforeach; ?>
@@ -33,10 +48,16 @@
 	<?php
 	$site = panel()->site();
 	foreach ($site->languages() as $lang):
-		foreach($site->index() as $page):
+		foreach($site->children() as $page):
 			// If the page is in the ignore list, skip it
 			if (in_array($page, c::get("panel.widget.cacheBuilder.ignore"))) continue;
 			echo "{ url: '{$site->url()}/{$lang}/{$page->slug($lang->code())}', slug: '{$page->slug($lang->code())}', lang: '{$lang}'},";
+
+			if ($page->hasChildren()):
+				foreach ($page->children() as $child):
+					echo "{ url: '{$site->url()}/{$lang}/{$page->slug($lang->code())}/{$child->slug($lang->code())}', slug: '{$child->slug($lang->code())}', lang: '{$lang}'},\n";
+				endforeach;
+			endif;
 		endforeach;
 		echo "\n";
 	endforeach;
